@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="746.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -71,5 +75,91 @@
          </font>
       </Button>
       <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Planilha" />
+      <VBox layoutX="20.0" layoutY="210.0" prefHeight="303.0" prefWidth="279.0" style="-fx-background-color: #FFB800; -fx-background-radius: 4;">
+         <children>
+            <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="279.0" style="-fx-background-color: #000000; -fx-background-radius: 2;">
+               <children>
+                  <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 2;" text="Alertas">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="31.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/sino.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="MOVE" />
+                     </cursor>
+                     <effect>
+                        <SepiaTone />
+                     </effect>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Group%205.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Temperatura alta">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Component%201.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000; -fx-padding: 10 10 10 10;" text="Umidade baixa">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Group%206%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="214.0" style="-fx-text-fill: #000000;" text="Temperatura muito baixa">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Component%201.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="193.0" style="-fx-text-fill: #000000;" text="Baixo teor de umidade">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
 </AnchorPane>

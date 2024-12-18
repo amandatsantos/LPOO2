@@ -6,9 +6,10 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="746.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -16,30 +17,47 @@
         <menus>
           <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
             <items>
-              <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Close" />
+              <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Ligar arduino" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gerar planilha" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Sair" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gráfico de umidade" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gráfico de temperatura" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Manual do usuário" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Suporte" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-color: #000000;" text="Sair">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 150; -fx-background-color: #285901; -fx-color: #000000; -fx-color: #000000;">
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Logo%20full.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Sair">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Vector.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Menu>
         </menus>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </MenuBar>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="75.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="144.0" layoutY="88.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -47,11 +65,11 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="19.0" layoutY="138.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Arduino" textAlignment="CENTER">
+      <Button layoutX="20.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Arduino" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="171.0" layoutY="138.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Planilha" />
+      <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Planilha" />
    </children>
 </AnchorPane>

@@ -43,7 +43,10 @@
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 150; -fx-background-color: #285901; -fx-color: #000000; -fx-color: #000000;">
                <graphic>
-                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagens/Logo full.png" />
+                     </image></ImageView>
                </graphic>
             </Menu>
          </menus>
@@ -76,7 +79,7 @@
                   </Label>
                   <ImageView fitHeight="31.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/sino.png" />
+                        <Image url="@../Imagens/sino.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="MOVE" />
@@ -89,7 +92,10 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
                <children>
-                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagens/Alta temperatura.png" />
+                     </image></ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Temperatura alta">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -104,7 +110,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Falta%20de%20umidade.png" />
+                        <Image url="@../Imagens/Falta de umidade.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000; -fx-padding: 10 10 10 10;" text="Umidade baixa">
@@ -118,10 +124,24 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Vector-1.png" />
+                        <Image url="@../Imagens/Baixa temperatura.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Umidade alta">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="214.0" style="-fx-text-fill: #000000;" text="Temperatura muito baixa">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagens/Falta de umidade.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="193.0" style="-fx-text-fill: #000000;" text="Baixo teor de umidade">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>

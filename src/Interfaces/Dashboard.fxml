@@ -17,10 +17,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.XYChart?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="804.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Controller">
    <children>
-      <MenuBar prefHeight="48.0" prefWidth="805.0" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-max-height: 10 0 15;">
+      <MenuBar prefHeight="50.0" prefWidth="900.0" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-max-height: 50;">
          <menus>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
                <items>
@@ -31,8 +39,8 @@
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
                <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de umidade" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de temperatura" />
+                  <MenuItem mnemonicParsing="false" onAction="#showHumidityChart" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de umidade" />
+                  <MenuItem mnemonicParsing="false" onAction="#showTemperatureChart" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de temperatura" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
@@ -151,22 +159,33 @@
          </children>
       </VBox>
       <VBox layoutX="373.0" layoutY="159.0" prefHeight="358.0" prefWidth="401.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-         <BarChart fx:id="humidityChart" prefHeight="400.0" prefWidth="600.0" title="Umidade Relativa do Ar">
+         <BarChart fx:id="humidityChart" layoutX="14.0" layoutY="14.0" prefHeight="250" prefWidth="380" visible="false">
             <xAxis>
-               <CategoryAxis label="Dias da Semana" />
+               <CategoryAxis label="" />
             </xAxis>
             <yAxis>
                <NumberAxis label="Umidade (%)" />
             </yAxis>
          </BarChart>
-         <BarChart fx:id="temperatureChart" prefHeight="400.0" prefWidth="600.0" title="Medição da Temperatura">
+         <BarChart fx:id="temperatureChart" layoutX="14.0" layoutY="14.0" prefHeight="250" prefWidth="380" visible="false">
+
             <xAxis>
-               <CategoryAxis label="Dias da Semana" />
+               <CategoryAxis label="" />
             </xAxis>
             <yAxis>
                <NumberAxis label="Temperatura (°C)" />
+
             </yAxis>
+
          </BarChart>
+         <HBox fx:id="temperatureLegend" spacing="10" alignment="CENTER">
+            <Rectangle width="20" height="20" fill="#b50000" />
+            <Text text="Temperatura Máxima" />
+            <Rectangle width="20" height="20" fill="#4eb500" />
+            <Text text="Temperatura Mínima" />
+         </HBox>
+
+
       </VBox>
    </children>
 </AnchorPane>

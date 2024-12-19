@@ -24,29 +24,39 @@
          <menus>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
                <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Ligar arduino" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gerar planilha" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Sair" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Ligar arduino" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gerar planilha" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Sair" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
                <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de umidade" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de temperatura" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gráfico de umidade" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Gráfico de temperatura" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
                <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Manual do usuário" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Suporte" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Manual do usuário" />
+                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901;" text="Suporte" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 150; -fx-background-color: #285901; -fx-color: #000000; -fx-color: #000000;">
                <graphic>
                   <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagens/Logo full.png" />
-                     </image></ImageView>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Logo%20full.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Sair">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Vector.png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Menu>
          </menus>
@@ -54,7 +64,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </MenuBar>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="154.0" layoutY="89.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="144.0" layoutY="88.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -79,7 +89,7 @@
                   </Label>
                   <ImageView fitHeight="31.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagens/sino.png" />
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/sino.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="MOVE" />
@@ -94,8 +104,9 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagens/Alta temperatura.png" />
-                     </image></ImageView>
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Group%205.png" />
+                     </image>
+                  </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Temperatura alta">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -110,7 +121,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagens/Falta de umidade.png" />
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Component%201.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000; -fx-padding: 10 10 10 10;" text="Umidade baixa">
@@ -124,24 +135,10 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagens/Baixa temperatura.png" />
+                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Vector-1.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="214.0" style="-fx-text-fill: #000000;" text="Temperatura muito baixa">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
-               <children>
-                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagens/Falta de umidade.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="193.0" style="-fx-text-fill: #000000;" text="Baixo teor de umidade">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Umidade alta">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>

@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="804.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Controller">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="804.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Controller">
    <children>
       <MenuBar prefHeight="48.0" prefWidth="805.0" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-max-height: 10 0 15;">
          <menus>
@@ -26,7 +26,6 @@
                <items>
                   <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Ligar arduino" />
                   <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gerar planilha" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Sair" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
@@ -54,7 +53,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </MenuBar>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="154.0" layoutY="89.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="154.0" layoutY="89.0" prefHeight="34.0" prefWidth="458.0" style="-fx-background-color: #E87629; -fx-background-radius: 2; -fx-text-fill: #FFFFFF;" text="Sistema de Monitoramento de Temperatura e Umidade" textAlignment="CENTER">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -62,17 +61,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="20.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Arduino" textAlignment="CENTER">
+      <Button fx:id="btnGerenciarArduino" layoutX="20.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;" text="Gerenciar Arduino" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Planilha" />
+      <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;" text="Gerenciar Planilha" />
       <VBox layoutX="20.0" layoutY="210.0" prefHeight="303.0" prefWidth="279.0" style="-fx-background-color: #FFB800; -fx-background-radius: 4;">
          <children>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="279.0" style="-fx-background-color: #000000; -fx-background-radius: 2;">
                <children>
-                  <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 2;" text="Alertas">
+                  <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 2; -fx-text-fill: #FFFFFF;" text="Alertas">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -90,7 +89,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
+            <HBox id="btnOpenModal" alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -105,6 +104,9 @@
                      </opaqueInsets>
                   </Label>
                </children>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
                <children>

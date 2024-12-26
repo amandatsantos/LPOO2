@@ -12,7 +12,7 @@ public class Main {
         // Criação do objeto Monitoramento
         Monitoramento monitoramento = new Monitoramento("DHT11");
 
-        // Loop de leitura e monitoramento
+        // Loop de Leitura e monitoramento
         while (true) {
             monitoramento.atualizarSensor(); // Atualiza os dados do sensor
             monitoramento.exibirDados();    // Exibe os dados no console

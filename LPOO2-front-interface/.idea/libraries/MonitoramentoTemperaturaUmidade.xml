@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MonitoramentoTemperaturaUmidade">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/MonitoramentoTemperaturaUmidade.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

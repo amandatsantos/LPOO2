@@ -40,7 +40,7 @@ public class MonitoramentoGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-       
+
         JPanel painelSuperior = new JPanel(new GridLayout(3, 1));
         lblTemperatura = new JLabel("Temperatura: -- °C", SwingConstants.CENTER);
         lblUmidade = new JLabel("Umidade: -- %", SwingConstants.CENTER);
@@ -51,31 +51,31 @@ public class MonitoramentoGUI {
         painelSuperior.add(lblAlerta);
         frame.add(painelSuperior, BorderLayout.NORTH);
 
-    
+
         textAreaDados = new JTextArea();
         textAreaDados.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textAreaDados);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-   
+
         JPanel painelAlertas = new JPanel(new BorderLayout());
         textAreaAlertas = new JTextArea();
         textAreaAlertas.setEditable(false);
-        textAreaAlertas.setBackground(Color.LIGHT_GRAY);  
+        textAreaAlertas.setBackground(Color.LIGHT_GRAY);
         JScrollPane scrollAlertas = new JScrollPane(textAreaAlertas);
         painelAlertas.add(scrollAlertas, BorderLayout.CENTER);
-        painelAlertas.setBorder(BorderFactory.createTitledBorder("Alertas")); 
-        frame.add(painelAlertas, BorderLayout.SOUTH);  
+        painelAlertas.setBorder(BorderFactory.createTitledBorder("Alertas"));
+        frame.add(painelAlertas, BorderLayout.SOUTH);
 
-     
+
         JPanel painelInferior = new JPanel(new FlowLayout());
 
-  
+
         JButton btnAtualizarDados = new JButton("Atualizar Dados");
         btnAtualizarDados.addActionListener(e -> atualizarLeituras());
         painelInferior.add(btnAtualizarDados);
 
-    
+
         JButton btnEnviarAlerta = new JButton("Enviar Alerta");
         btnEnviarAlerta.addActionListener(e -> enviarAlerta());
         painelInferior.add(btnEnviarAlerta);
@@ -95,19 +95,19 @@ public class MonitoramentoGUI {
         lblTemperatura.setText("Temperatura: " + monitoramento.getTemperatura() + " °C");
         lblUmidade.setText("Umidade: " + monitoramento.getUmidade() + " %");
 
-       
+
         String alerta = monitoramento.verificarAlertas();
         lblAlerta.setText(alerta);  // Atualiza o alerta geral
         textAreaAlertas.setText(alerta);  // Exibe os alertas na nova área de texto
 
-        
+
         String leitura = "Temperatura: " + monitoramento.getTemperatura() + " °C, Umidade: " + monitoramento.getUmidade() + " %";
         if (ultimasLeituras.size() >= 10) {
-            ultimasLeituras.removeFirst(); 
+            ultimasLeituras.removeFirst();
         }
         ultimasLeituras.add(leitura);
 
-       
+
         textAreaDados.setText("");
         for (String leituraAnterior : ultimasLeituras) {
             textAreaDados.append(leituraAnterior + "\n");
@@ -124,8 +124,8 @@ public class MonitoramentoGUI {
 
     private void enviarAlerta() {
         String alerta = monitoramento.verificarAlertas();
-        
-        
+
+
         JOptionPane.showMessageDialog(frame, "Alerta Enviado: " + alerta);
         System.out.println("Alerta Enviado: " + alerta);
     }
@@ -134,4 +134,3 @@ public class MonitoramentoGUI {
         new MonitoramentoGUI();
     }
 }
-

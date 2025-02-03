@@ -1,5 +1,5 @@
 package Interfaces;
-
+import DatabaseConnection.DatabaseConnection;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -18,7 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import Monitoramento.Monitoramento;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -75,7 +78,7 @@ public class Controller {
     }
 
 
-@FXML
+    @FXML
     private Button btnGerenciarArduino; // Certifique-se de que o ID do botão no FXML é "btnGerenciarArduino"
 
     @FXML
@@ -140,8 +143,9 @@ public class Controller {
     private void exibirAlerta(AlertType alertType, String s) {
     }
 
+    private Monitoramento monitoramento = new Monitoramento("DHT11");
+
     private void configurarGraficos() {
-        // Criando as séries de dados para umidade e temperatura
         XYChart.Series<String, Number> humiditySeries = new XYChart.Series<>();
         humiditySeries.setName("Umidade");
 
@@ -151,76 +155,64 @@ public class Controller {
         XYChart.Series<String, Number> tempMaxSeries = new XYChart.Series<>();
         tempMaxSeries.setName("Máxima");
 
-        for (String day : new String[]{"Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"}) {
-            humiditySeries.getData().add(new XYChart.Data<>(day, generateRandomHumidity()));
-            tempMinSeries.getData().add(new XYChart.Data<>(day, generateRandomTemperatureMin()));
-            tempMaxSeries.getData().add(new XYChart.Data<>(day, generateRandomTemperatureMax()));
-        }
-
         humidityChart.getData().add(humiditySeries);
         temperatureChart.getData().addAll(tempMinSeries, tempMaxSeries);
 
-        // Alterando as cores das barras
+        // Define as cores das barras
         humiditySeries.getData().forEach(data -> data.getNode().setStyle("-fx-bar-fill: #6398ff;"));  // Azul
-        tempMinSeries.getData().forEach(data -> data.getNode().setStyle("-fx-bar-fill: #4eb500;"));  // Vermelho
-        tempMaxSeries.getData().forEach(data -> data.getNode().setStyle("-fx-bar-fill: #b50000;"));
+        tempMinSeries.getData().forEach(data -> data.getNode().setStyle("-fx-bar-fill: #4eb500;"));  // Verde
+        tempMaxSeries.getData().forEach(data -> data.getNode().setStyle("-fx-bar-fill: #b50000;"));  // Vermelho
 
         // Inicialmente, o gráfico de temperaturas e a legenda estão ocultos
         temperatureChart.setVisible(false);
-        temperatureLegend.setVisible(false); // Ocultando a legenda também
+        temperatureLegend.setVisible(false);
 
-        // Atualizar os gráficos a cada 2 segundos
-        updateChartsPeriodically();
+        // Inicia a atualização automática dos gráficos
+        atualizarGraficosPeriodicamente();
     }
 
-    private double generateRandomHumidity() {
-        return 10 + (random.nextDouble() * 90); // Humidade entre 10 e 100%
-    }
-
-    private double generateRandomTemperatureMin() {
-        return 5 + (random.nextDouble() * 10); // Temperatura mínima entre 5 e 15 graus
-    }
-
-    private double generateRandomTemperatureMax() {
-        return 15 + (random.nextDouble() * 15); // Temperatura máxima entre 15 e 30 graus
-    }
-
-    private void updateChartsPeriodically() {
-        // Cria um KeyFrame para atualizar os gráficos a cada 2 segundos
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), e -> updateChartData());
+    private void atualizarGraficosPeriodicamente() {
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), e -> atualizarDadosGraficos());
         Timeline timeline = new Timeline(keyFrame);
-        timeline.setCycleCount(Timeline.INDEFINITE); // O ciclo se repete indefinidamente
-        timeline.play(); // Inicia a Timeline
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
-    private void updateChartData() {
-        // Atualiza os dados da umidade
-        for (XYChart.Data<String, Number> data : humidityChart.getData().get(0).getData()) {
-            data.setYValue(generateRandomHumidity());
-        }
+    private void atualizarDadosGraficos() {
+        // Atualiza os dados do sensor
+        monitoramento.atualizarSensor();
 
-        // Atualiza os dados da temperatura mínima
-        for (XYChart.Data<String, Number> data : temperatureChart.getData().get(0).getData()) {
-            data.setYValue(generateRandomTemperatureMin());
-        }
+        // Obtém os novos valores de temperatura e umidade
+        double temperatura = monitoramento.getTemperatura();
+        double umidade = monitoramento.getUmidade();
 
-        // Atualiza os dados da temperatura máxima
-        for (XYChart.Data<String, Number> data : temperatureChart.getData().get(1).getData()) {
-            data.setYValue(generateRandomTemperatureMax());
+        // Obtém o horário atual como identificador
+        String horario = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+        // Adiciona os novos dados ao gráfico de umidade
+        humidityChart.getData().get(0).getData().add(new XYChart.Data<>(horario, umidade));
+
+        // Adiciona os novos dados ao gráfico de temperatura (mínima e máxima)
+        temperatureChart.getData().get(0).getData().add(new XYChart.Data<>(horario, temperatura - 2)); // Mínima
+        temperatureChart.getData().get(1).getData().add(new XYChart.Data<>(horario, temperatura + 2)); // Máxima
+
+        // Remove dados antigos para manter o gráfico atualizado
+        if (humidityChart.getData().get(0).getData().size() > 10) {
+            humidityChart.getData().get(0).getData().remove(0);
+            temperatureChart.getData().get(0).getData().remove(0);
+            temperatureChart.getData().get(1).getData().remove(0);
         }
     }
 
     @FXML
     private void showTemperatureChart() {
-        // Alterna a visibilidade do gráfico de temperatura e da legenda
         boolean isVisible = temperatureChart.isVisible();
         temperatureChart.setVisible(!isVisible);
-        temperatureLegend.setVisible(!isVisible); // Alterna também a visibilidade da legenda
+        temperatureLegend.setVisible(!isVisible);
     }
 
     @FXML
     private void showHumidityChart() {
-        // Alterna a visibilidade do gráfico de umidade
         boolean isVisible = humidityChart.isVisible();
         humidityChart.setVisible(!isVisible);
     }

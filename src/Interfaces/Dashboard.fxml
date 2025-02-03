@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -13,37 +16,43 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="746.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Controller">
    <children>
-      <MenuBar prefHeight="48.0" prefWidth="746.0" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-max-height: 10 0 15;">
-        <menus>
-          <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
-            <items>
-              <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Ligar arduino" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gerar planilha" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Sair" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
-            <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de umidade" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de temperatura" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
-            <items>
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Manual do usuário" />
-                  <MenuItem mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Suporte" />
-            </items>
-          </Menu>
+      <MenuBar prefHeight="50.0" prefWidth="900.0" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-max-height: 50;">
+         <menus>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#ligarArduino" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Ligar arduino" />
+                  <MenuItem mnemonicParsing="false" onAction="#gerarPlanilha" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gerar planilha" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExit" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Sair" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showHumidityChart" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de umidade" />
+                  <MenuItem mnemonicParsing="false" onAction="#showTemperatureChart" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Gráfico de temperatura" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openUserManual" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Manual do usuário" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSupport" style="-fx-padding: 7 20; -fx-background-color: #A0F95C; -fx-text-fill: #000000;" text="Suporte" />
+               </items>
+            </Menu>
+
             <Menu mnemonicParsing="false" style="-fx-padding: 7 150; -fx-background-color: #285901; -fx-color: #000000; -fx-color: #000000;">
                <graphic>
-                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagens/Logo full.png" />
+                     </image></ImageView>
                </graphic>
             </Menu>
-        </menus>
+         </menus>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -56,24 +65,24 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="20.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Arduino" textAlignment="CENTER">
+      <Button fx:id="btnGerenciarArduino" layoutX="20.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #011742; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;" text="Gerenciar Arduino" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700;" text="Gerenciar Planilha" />
+      <Button layoutX="171.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;" text="Gerenciar Planilha" />
       <VBox layoutX="20.0" layoutY="210.0" prefHeight="303.0" prefWidth="279.0" style="-fx-background-color: #FFB800; -fx-background-radius: 4;">
          <children>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="279.0" style="-fx-background-color: #000000; -fx-background-radius: 2;">
                <children>
-                  <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 2;" text="Alertas">
+                  <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 2; -fx-text-fill: #FFFFFF;" text="Alertas">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
                   <ImageView fitHeight="31.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/sino.png" />
+                        <Image url="@../Imagens/sino.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="MOVE" />
@@ -86,7 +95,10 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="279.0" style="-fx-padding: 10 10 10 10;">
                <children>
-                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagens/Alta temperatura.png" />
+                     </image></ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000;" text="Temperatura alta">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -101,7 +113,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Falta%20de%20umidade.png" />
+                        <Image url="@../Imagens/Falta de umidade.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="141.0" style="-fx-text-fill: #000000; -fx-padding: 10 10 10 10;" text="Umidade baixa">
@@ -115,7 +127,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Baixa%20temperatura.png" />
+                        <Image url="@../Imagens/Baixa temperatura.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="214.0" style="-fx-text-fill: #000000;" text="Temperatura muito baixa">
@@ -129,7 +141,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../OneDrive/Área%20de%20Trabalho/LPOO2/src/Imagens/Falta%20de%20umidade.png" />
+                        <Image url="@../Imagens/Falta de umidade.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="193.0" style="-fx-text-fill: #000000;" text="Baixo teor de umidade">
@@ -141,8 +153,36 @@
             </HBox>
          </children>
       </VBox>
+      <VBox layoutX="373.0" layoutY="159.0" prefHeight="358.0" prefWidth="401.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+         <BarChart fx:id="humidityChart" layoutX="14.0" layoutY="14.0" prefHeight="250" prefWidth="380" visible="false">
+            <xAxis>
+               <CategoryAxis label="Dias da Semana" />
+            </xAxis>
+            <yAxis>
+               <NumberAxis label="Umidade (%)" />
+            </yAxis>
+         </BarChart>
+         <BarChart fx:id="temperatureChart" layoutX="14.0" layoutY="14.0" prefHeight="250" prefWidth="380" visible="false">
+
+            <xAxis>
+               <CategoryAxis label="" />
+            </xAxis>
+            <yAxis>
+               <NumberAxis label="Temperatura (°C)" />
+
+            </yAxis>
+
+         </BarChart>
+
+
+         <HBox fx:id="temperatureLegend" alignment="CENTER" spacing="10">
+            <Rectangle fill="#b50000" height="20" width="20" />
+            <Text text="Temperatura Máxima" />
+            <Rectangle fill="#4eb500" height="20" width="20" />
+            <Text text="Temperatura Mínima" />
+         </HBox>
+
+
+      </VBox>
    </children>
-   <cursor>
-      <Cursor fx:constant="DEFAULT" />
-   </cursor>
 </AnchorPane>

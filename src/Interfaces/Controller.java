@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.awt.Desktop;
+import java.net.URI;
 
 public class Controller {
 
@@ -77,11 +79,28 @@ public class Controller {
     }
 
     @FXML
+    private void abrirExcelOnline() {
+        try {
+            // Link para o Excel Online
+            URI excelUri = new URI("https://www.office.com/launch/excel");
+            Desktop.getDesktop().browse(excelUri);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro ao abrir o Excel Online.");
+            alert.showAndWait();
+        }
+    }
+
+
+    @FXML
     private void openUserManual() {
         Alert manualAlert = new Alert(AlertType.INFORMATION);
         manualAlert.setTitle("Manual do Usuário");
-        manualAlert.setHeaderText("Manual Básico");
-        manualAlert.setContentText("Aqui você pode colocar informações do manual de uso ou redirecionar para outra janela.");
+        manualAlert.setHeaderText(null);
+        manualAlert.setContentText("EM FASE DE DESENVOLVIMENTO");
         manualAlert.showAndWait();
     }
 
@@ -90,7 +109,7 @@ public class Controller {
         Alert supportAlert = new Alert(AlertType.INFORMATION);
         supportAlert.setTitle("Suporte");
         supportAlert.setHeaderText(null);
-        supportAlert.setContentText("Para suporte, entre em contato com o time de desenvolvimento.");
+        supportAlert.setContentText("Para suporte, entre em contato com o time de desenvolvimento.\n\n Amanda Tavares - tavaresamandasantos@gmail.com\n Bruno Flores - brunoinstt@gmail.com \n Henrique Santos - henrsilvasantos@gmail.com");
         supportAlert.showAndWait();
     }
 

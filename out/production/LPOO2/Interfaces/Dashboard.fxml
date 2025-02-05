@@ -69,7 +69,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="171.0" layoutY="195.0" mnemonicParsing="false" style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;" text="Gerenciar Planilha" />
+      <Button layoutX="171.0" layoutY="195.0" mnemonicParsing="false"
+              style="-fx-background-color: #0443BD; -fx-background-radius: 2; -fx-font-weight: 700; -fx-text-fill: #FFFFFF;"
+              text="Gerenciar Planilha" onAction="#abrirExcelOnline" />
+
       <VBox layoutX="20.0" layoutY="260.0" prefHeight="303.0" prefWidth="279.0" style="-fx-background-color: #FFB800; -fx-background-radius: 4;">
          <children>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="279.0" style="-fx-background-color: #000000; -fx-background-radius: 2;">

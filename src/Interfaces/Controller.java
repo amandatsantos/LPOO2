@@ -27,19 +27,36 @@ import java.util.Random;
 
 public class Controller {
 
-    @FXML
-    private void handleExit() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmação");
-        alert.setHeaderText("Deseja realmente sair?");
-        alert.setContentText("Clique em OK para sair.");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.close();
-        }
+    @FXML
+    private void showHighTemperatureAlert() {
+        showAlert("Alerta de alta temperatura", "A temperatura do minhocário está acima do nível ideal para a saúde das minhocas e para compostagem eficiente.\n\n" +
+                "Ação recomendada: \n \n" +
+                "Verifique a temperatura para garantir condições adequadas.\n ");
     }
+
+    @FXML
+    private void showLowTemperatureAlert() {
+        showAlert("Alerta de baixa temperatura", "A temperatura do minhocário está abaixo do nível ideal para a saúde das minhocas e para compostagem eficiente.\n\n" +
+                "Ação recomendada: \n \n" +
+                "Verifique a temperatura para garantir condições adequadas.\n ");
+    }
+
+    @FXML
+    private void showLowHumidityAlert() {
+        showAlert("Alerta de baixa umidade", "A umidade do minhocário está abaixo do nível ideal para a saúde das minhocas e para a compostagem eficiente. \n \n" +
+                "Ação recomendada: \n \n" +
+                 "Verifique a umidade para garantir condições adequadas.\n ");
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
     @FXML
     private void ligarArduino() {
@@ -76,7 +93,6 @@ public class Controller {
         supportAlert.setContentText("Para suporte, entre em contato com o time de desenvolvimento.");
         supportAlert.showAndWait();
     }
-
 
     @FXML
     private Button btnGerenciarArduino; // Certifique-se de que o ID do botão no FXML é "btnGerenciarArduino"

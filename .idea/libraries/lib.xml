@@ -1,12 +1,10 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/lib/google-http-client-jackson2-1.45.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dist/lib/google-api-client-2.7.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dist/lib/google-auth-library-oauth2-http-1.30.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dist/lib/google-api-services-sheets-v4-rev614-1.18.0-rc.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../../Program Files/JavaJX/javafx-sdk-23.0.2/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../../Program Files/JavaJX/javafx-sdk-23.0.2/lib" recursive="false" />
   </library>
 </component>

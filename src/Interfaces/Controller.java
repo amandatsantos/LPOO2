@@ -68,7 +68,7 @@ public class Controller {
         alert.setContentText("O Arduino foi ligado!");
         alert.showAndWait();
     }
-
+/*
     @FXML
     private void gerarPlanilha() {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -76,6 +76,21 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText("A planilha foi gerada com sucesso!");
         alert.showAndWait();
+    }
+*/
+    @FXML
+    private void gerarPlanilha() {
+        try {
+            URI excelUri = new URI("https://1drv.ms/x/c/b1df371e86161d92/EQj9ckK9n59BjHJkz5FfWWABODCqIW3-YOF9vSKd0NDQpw?e=pvwH8U");
+            Desktop.getDesktop().browse(excelUri);
+        } catch (Exception e){
+            e.printStackTrace();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro ao abrir o Excel Online.");
+            alert.showAndWait();
+        }
     }
 
     @FXML

@@ -30,5 +30,13 @@ public class Sensor {
     public void setUmidade(float umidade) {
         this.umidade = umidade;
     }
+
+    public void setUmidadeSolo(float umidade_solo) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getUmidadeSolo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

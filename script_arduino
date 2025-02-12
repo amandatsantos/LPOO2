@@ -1,0 +1,49 @@
+#include <DHT.h>
+
+// Configuração do sensor DHT11
+#define DHTPIN A2       // Pino conectado ao sensor DHT11
+#define DHTTYPE DHT11   // Define o tipo do sensor DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+// Configuração do sensor de umidade do solo
+#define UMIDADE_ANALOGICA A0   // Pino analógico para leitura da umidade do solo
+#define UMIDADE_DIGITAL   7    // Pino digital para leitura do estado do solo
+
+void setup() {
+  Serial.begin(9600);    // Inicializa a comunicação serial
+  dht.begin();           // Inicializa o sensor DHT11
+
+  pinMode(UMIDADE_ANALOGICA, INPUT);
+  pinMode(UMIDADE_DIGITAL, INPUT);
+}
+
+void loop() {
+  // Leitura do DHT11 (temperatura e umidade do ar)
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+
+  // Verifica se houve erro na leitura
+  if (isnan(h) || isnan(t)) {
+    Serial.println("Falha na leitura do sensor DHT11!");
+  } else {
+    Serial.print("Umidade do ar: "); Serial.print(h); Serial.println("%");
+    Serial.print("Temperatura: "); Serial.print(t); Serial.println("°C");
+  }
+
+  // Leitura analógica do sensor de umidade do solo
+  int umidadeSolo = analogRead(UMIDADE_ANALOGICA);
+  umidadeSolo = map(umidadeSolo, 1023, 315, 0, 100); // Converte para escala de 0 a 100%
+
+  Serial.print("Umidade do solo: "); Serial.print(umidadeSolo); Serial.println("%");
+
+  // Leitura digital do sensor de umidade do solo
+  int estadoSolo = digitalRead(UMIDADE_DIGITAL);
+  if (estadoSolo == 0) {
+    Serial.println("Status: Solo úmido");
+  } else {
+    Serial.println("Status: Solo seco");
+  }
+
+  Serial.println(); 
+  delay(5000); 
+}

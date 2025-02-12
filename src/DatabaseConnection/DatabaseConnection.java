@@ -39,11 +39,12 @@ public class DatabaseConnection {
         return connection;
     }
 
-    public static void insertLeitura(float temperatura, float umidade) {
-        String sql = "INSERT INTO leitura_sensor (temperatura, umidade) VALUES (?, ?)";
+    public static void insertLeitura(float temperatura, float umidade, float umidade_solo) {
+        String sql = "INSERT INTO leitura_sensor (temperatura, umidade,umidade_solo) VALUES (?, ?,?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setFloat(1, temperatura);
             stmt.setFloat(2, umidade);
+             stmt.setFloat(3, umidade_solo);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Erro ao salvar dados: " + e.getMessage());
@@ -61,8 +62,10 @@ public class DatabaseConnection {
                 int id = rs.getInt("id");
                 float temperatura = rs.getFloat("temperatura");
                 float umidade = rs.getFloat("umidade");
+                                float umidade_solo = rs.getFloat("umidade_solo");
+
                 Timestamp dataHora = rs.getTimestamp("data_hora");
-                leituras.add("ID: " + id + ", Temperatura: " + temperatura + "°C, Umidade: " + umidade + "%, Data: " + dataHora);
+                leituras.add("ID: " + id + ", Temperatura: " + temperatura + "°C, Umidade do ar: " + umidade + "%"+ umidade_solo+"% Data: " + dataHora);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar dados: " + e.getMessage());
@@ -71,7 +74,7 @@ public class DatabaseConnection {
         return leituras;
     }
 
-    public static void insertLeitura(double temperaturaAtual, double umidadeAtual) {
+    public static void insertLeitura(double temperaturaAtual, double umidadeAtual, double umidadeSoloAtual) {
         throw new UnsupportedOperationException("Not supported yet."); //
     }
 }

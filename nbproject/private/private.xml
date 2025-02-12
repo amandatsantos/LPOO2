@@ -5,10 +5,12 @@
         <group>
             <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/MonitoramentoGUI/MonitoramentoGUI.java</file>
             <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/Monitoramento/Monitoramento.java</file>
+            <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/ArduinoSerialReaderGUI.java</file>
+            <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/compostecTesteInter.java</file>
             <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/SerialCommunication/SerialCommunication.java</file>
             <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/Sensor/Sensor.java</file>
+            <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/dados.csv</file>
             <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/DatabaseConnection/DatabaseConnection.java</file>
-            <file>file:/C:/Users/amd/Documents/NetBeansProjects/MonitoramentoTemperaturaUmidade/src/main/Main.java</file>
         </group>
     </open-files>
 </project-private>

@@ -29,7 +29,7 @@ public class ArduinoSerialReaderGUI {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        // Criando tabela para mostrar as últimas 10 leituras
+        // tabela com as utlimas leituras
         String[] colunas = {"Data/Hora", "Temp (°C)", "Umi Ar (%)", "Umi Solo (%)"};
         tableModel = new DefaultTableModel(colunas, 0);
         leituraTable = new JTable(tableModel);

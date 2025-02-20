@@ -2,11 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-/*
- * Classe responsável por monitorar os dados recebidos de um sensor.
- * Realiza a leitura dos dados, atualiza o estado do sensor, verifica alertas
- * e exibe os dados.
- */
 package Monitoramento;
 
 import Sensor.Sensor;
@@ -15,9 +10,9 @@ import DatabaseConnection.DatabaseConnection;
 
 public class Monitoramento {
     // Constantes para limites de alerta
-    private static final float TEMPERATURA_ALERTA = 30.0f;
-    private static final float UMIDADE_ALERTA = 40.0f;
-    private static final float UMIDADE_SOLO_ALERTA = 50.0f;
+    private static final float TEMPERATURA_ALERTA = 100.0f;
+    private static final float UMIDADE_ALERTA = 100.0f;
+    private static final float UMIDADE_SOLO_ALERTA = 100.0f;
 
     // Dependências
     private final Sensor sensor;
@@ -29,10 +24,11 @@ public class Monitoramento {
      * @param sensor               Instância do sensor.
      * @param serialCommunication  Instância da comunicação serial.
      */
-    public Monitoramento(Sensor sensor, SerialCommunication serialCommunication) {
-        this.sensor = sensor;
-        this.serialCommunication = serialCommunication;
-    }
+ public Monitoramento(Sensor sensor, SerialCommunication serialCommunication) {
+    this.sensor = sensor;
+    this.serialCommunication = serialCommunication;
+}
+
 
     /**
      * Atualiza os dados do sensor a partir dos dados recebidos via comunicação serial.
@@ -133,7 +129,7 @@ public class Monitoramento {
      *
      * @return Umidade do solo atual.
      */
-    public String getUmidadeSolo() {
+    public float getUmidadeSolo() {
         return sensor.getUmidadeSolo();
     }
 

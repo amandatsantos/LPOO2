@@ -4,12 +4,11 @@
  */
 package Sensor;
 
-
-
 public class Sensor {
     private String tipo;
     private float temperatura;
     private float umidade;
+    private float umidadeSolo; 
 
     public Sensor(String tipo) {
         this.tipo = tipo;
@@ -31,12 +30,11 @@ public class Sensor {
         this.umidade = umidade;
     }
 
-    public void setUmidadeSolo(float umidade_solo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getUmidadeSolo() {  
+        return umidadeSolo;
     }
 
-    public String getUmidadeSolo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setUmidadeSolo(float umidadeSolo) {  
+        this.umidadeSolo = umidadeSolo;
     }
 }
-

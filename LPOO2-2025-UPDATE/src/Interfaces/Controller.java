@@ -23,7 +23,11 @@ import Monitoramento.Monitoramento;
 import Sensor.Sensor;
 import SerialCommunication.SerialCommunication;
 
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -35,7 +39,7 @@ public class Controller {
 
     // Componentes da interface
     @FXML
-    private Button btnGerenciarArduino;
+    private Button btnArduino;
 
     @FXML
     private AnchorPane rootPane;
@@ -62,7 +66,7 @@ public class Controller {
         configurarPortaSerial();
 
         // Configura o botão "Gerenciar Arduino"
-        btnGerenciarArduino.setOnAction(event -> abrirModal());
+        btnArduino.setOnAction(event -> abrirModal());
 
         // Configura os gráficos
         configurarGraficos();
@@ -75,14 +79,14 @@ public class Controller {
     private void configurarPortaSerial() {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
-            if (port.getSystemPortName().equals("COM8")) { // Altere para a porta correta
+            if (port.getSystemPortName().equals("COM6")) { // Altere para a porta correta
                 comPort = port;
                 break;
             }
         }
 
         if (comPort == null) {
-            System.err.println("Porta COM8 não encontrada.");
+            System.err.println("Porta COM6 não encontrada.");
             return;
         }
 
@@ -268,32 +272,38 @@ public class Controller {
     }
 
     @FXML
-    private void gerarPlanilha() {
-        try {
-            URI excelUri = new URI("https://1drv.ms/x/c/b1df371e86161d92/EQj9ckK9n59BjHJkz5FfWWABODCqIW3-YOF9vSKd0NDQpw?e=pvwH8U");
-            Desktop.getDesktop().browse(excelUri);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao abrir o Excel Online.");
-            alert.showAndWait();
-        }
-    }
+    private void gerarCSV() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Escolha onde salvar o arquivo");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivo CSV (*.csv)", "csv"));
 
-    @FXML
-    private void abrirExcelOnline() {
-        try {
-            URI excelUri = new URI("https://www.office.com/launch/excel");
-            Desktop.getDesktop().browse(excelUri);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao abrir o Excel Online.");
-            alert.showAndWait();
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getAbsolutePath().endsWith(".csv")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".csv");
+            }
+
+            try (FileWriter writer = new FileWriter(fileToSave)) {
+                writer.append("Data/Hora,Temperatura,Umidade do Ar,Umidade do Solo\n");
+                for (String[] leitura : ultimasLeituras) {
+                    writer.append(String.join(",", leitura)).append("\n");
+                }
+
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Sucesso");
+                alert.setHeaderText(null);
+                alert.setContentText("Arquivo salvo em: " + fileToSave.getAbsolutePath());
+                alert.showAndWait();
+            } catch (IOException e) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setHeaderText(null);
+                alert.setContentText("Erro ao salvar o arquivo.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -315,12 +325,12 @@ public class Controller {
         supportAlert.showAndWait();
     }
 
-    // Método para abrir o modal de gerenciamento do Arduino
+    // Método para abrir o modal do Arduino
     private void abrirModal() {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
         modalStage.initOwner(rootPane.getScene().getWindow());
-        modalStage.setTitle("Gerenciar Arduino");
+        modalStage.setTitle("Arduino");
 
         VBox modalContent = new VBox(10);
         modalContent.setPadding(new Insets(20));

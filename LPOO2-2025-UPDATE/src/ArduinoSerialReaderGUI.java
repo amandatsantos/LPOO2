@@ -59,7 +59,7 @@ public class ArduinoSerialReaderGUI {
         SerialPort comPort = null;
 
         for (SerialPort port : ports) {
-            if (port.getSystemPortName().equals("COM8")) {
+            if (port.getSystemPortName().equals("COM6")) {
                 comPort = port;
                 break;
             }

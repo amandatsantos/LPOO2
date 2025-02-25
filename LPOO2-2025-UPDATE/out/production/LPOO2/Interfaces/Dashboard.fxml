@@ -27,15 +27,10 @@
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000;" text="Arquivo">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#ligarArduino" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Ligar arduino" />
-                  <MenuItem mnemonicParsing="false" onAction="#gerarPlanilha" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Gerar planilha" />
+                  <MenuItem mnemonicParsing="false" onAction="#gerarCSV" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Gerar CSV" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none;" text="Exibir">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#showHumidityChart" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Gráfico de umidade" />
-                  <MenuItem mnemonicParsing="false" onAction="#showTemperatureChart" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Gráfico de temperatura" />
-               </items>
-            </Menu>
+
             <Menu mnemonicParsing="false" style="-fx-padding: 7 20; -fx-background-color: #285901; -fx-color: #000000; -fx-border-width: 0; -fx-border-style: none; -fx-padding: 7 30;" text="Ajuda">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#openUserManual" style="-fx-padding: 7 20; -fx-background-color: #000000; -fx-text-fill: #FFFFFF;" text="Manual do usuário" />

@@ -65,7 +65,7 @@ public class Controller {
         // Configura a porta serial
         configurarPortaSerial();
 
-        // Configura o botão "Gerenciar Arduino"
+        // Configura o botão "Arduino"
         btnArduino.setOnAction(event -> abrirModal());
 
         // Configura os gráficos
@@ -308,15 +308,6 @@ public class Controller {
     }
 
     @FXML
-    private void openUserManual() {
-        Alert manualAlert = new Alert(AlertType.INFORMATION);
-        manualAlert.setTitle("Manual do Usuário");
-        manualAlert.setHeaderText(null);
-        manualAlert.setContentText("EM FASE DE DESENVOLVIMENTO");
-        manualAlert.showAndWait();
-    }
-
-    @FXML
     private void openSupport() {
         Alert supportAlert = new Alert(AlertType.INFORMATION);
         supportAlert.setTitle("Suporte");
@@ -327,37 +318,11 @@ public class Controller {
 
     // Método para abrir o modal do Arduino
     private void abrirModal() {
-        Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL);
-        modalStage.initOwner(rootPane.getScene().getWindow());
-        modalStage.setTitle("Arduino");
-
-        VBox modalContent = new VBox(10);
-        modalContent.setPadding(new Insets(20));
-        modalContent.setStyle("-fx-background-color: #FFFFFF;");
-
-        Label mensagem = new Label("Selecione uma ação:");
-        Button btnConectar = new Button("Conectar Arduino");
-        Button btnDesconectar = new Button("Desconectar Arduino");
-        Button btnFechar = new Button("Fechar");
-
-        btnConectar.setOnAction(e -> {
-            System.out.println("Arduino conectado");
-            exibirAlerta(AlertType.INFORMATION, "Arduino conectado com sucesso!");
-        });
-
-        btnDesconectar.setOnAction(e -> {
-            System.out.println("Arduino desconectado");
-            exibirAlerta(AlertType.INFORMATION, "Arduino desconectado.");
-        });
-
-        btnFechar.setOnAction(e -> modalStage.close());
-
-        modalContent.getChildren().addAll(mensagem, btnConectar, btnDesconectar, btnFechar);
-
-        Scene modalScene = new Scene(modalContent, 300, 200);
-        modalStage.setScene(modalScene);
-        modalStage.showAndWait();
+        Alert supportAlert = new Alert(AlertType.INFORMATION);
+        supportAlert.setTitle("Arduino");
+        supportAlert.setHeaderText(null);
+        supportAlert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Tavares \n Porta conectada: \n Abound: \n Sensores: \n Bibliotecas: \n Método de comunicação: ");
+        supportAlert.showAndWait();
     }
 
     private void exibirAlerta(AlertType alertType, String mensagem) {

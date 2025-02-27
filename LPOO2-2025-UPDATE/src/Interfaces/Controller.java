@@ -268,7 +268,7 @@ public class Controller {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Ligar Arduino");
         alert.setHeaderText(null);
-        alert.setContentText("O Arduino foi ligado!");
+        alert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Uno \n Porta conectada: COM8 \n Baud Rate: 9600  \n Sensores: DHT11 e Higrômetro Pic Rasp \n Bibliotecas: DHT11 \n Método de comunicação: USB");
         alert.showAndWait();
     }
 
@@ -322,7 +322,7 @@ public class Controller {
         Alert supportAlert = new Alert(AlertType.INFORMATION);
         supportAlert.setTitle("Arduino");
         supportAlert.setHeaderText(null);
-        supportAlert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Tavares \n Porta conectada: \n Abound: \n Sensores: \n Bibliotecas: \n Método de comunicação: ");
+        supportAlert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Uno \n Porta conectada: COM8 \n Baud Rate: 9600  \n Sensores: DHT11 e Higrômetro Pic Rasp \n Bibliotecas: DHT11 \n Método de comunicação: USB ");
         supportAlert.showAndWait();
     }
 

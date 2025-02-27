@@ -23,7 +23,7 @@ import java.util.List;
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/monitoramento";
     private static final String USER = "root";
-    private static final String PASSWORD = "my2025";
+    private static final String PASSWORD = "12345678";
 
     private static Connection connection;
 

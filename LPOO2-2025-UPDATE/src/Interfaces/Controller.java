@@ -50,8 +50,8 @@ public class Controller {
     @FXML
     private BarChart<String, Number> temperatureChart;
 
-    @FXML
-    private HBox temperatureLegend;
+//    @FXML
+//    private HBox temperatureLegend;
 
     @FXML
     private HBox humidityLegend; // Referência para o HBox da legenda de umidade
@@ -79,14 +79,14 @@ public class Controller {
     private void configurarPortaSerial() {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
-            if (port.getSystemPortName().equals("COM6")) { // Altere para a porta correta
+            if (port.getSystemPortName().equals("COM8")) { // Altere para a porta correta
                 comPort = port;
                 break;
             }
         }
 
         if (comPort == null) {
-            System.err.println("Porta COM6 não encontrada.");
+            System.err.println("Porta COM8 não encontrada.");
             return;
         }
 
@@ -157,14 +157,14 @@ public class Controller {
 
         // Adiciona os novos dados ao gráfico de temperatura
         XYChart.Data<String, Number> tempMaxData = new XYChart.Data<>(horario, temperatura + 2); // Temperatura Máxima
-        XYChart.Data<String, Number> tempMinData = new XYChart.Data<>(horario, temperatura - 2); // Temperatura Mínima
+//        XYChart.Data<String, Number> tempMinData = new XYChart.Data<>(horario, temperatura - 2); // Temperatura Mínima
 
         temperatureChart.getData().get(0).getData().add(tempMaxData); // Temperatura Máxima
-        temperatureChart.getData().get(1).getData().add(tempMinData); // Temperatura Mínima
+//        temperatureChart.getData().get(1).getData().add(tempMinData); // Temperatura Mínima
 
         // Aplica as cores das barras após a criação dos nós
-        tempMaxData.getNode().setStyle("-fx-bar-fill: #b50000;"); // Vermelho
-        tempMinData.getNode().setStyle("-fx-bar-fill: #4eb500;"); // Verde
+        tempMaxData.getNode().setStyle("-fx-bar-fill: #e86f07;"); // Vermelho
+//        tempMinData.getNode().setStyle("-fx-bar-fill: #4eb500;"); // Verde
 
         // Remove dados antigos para manter o gráfico atualizado
         if (humidityChart.getData().get(0).getData().size() > 10) {
@@ -187,6 +187,7 @@ public class Controller {
         umidadeSoloSeries.setName("Umidade do Solo");
 
         humidityChart.getData().addAll(umidadeArSeries, umidadeSoloSeries);
+        humidityChart.setLegendVisible(false);
 
         // Aplica as cores das barras após a criação dos nós
         umidadeArSeries.getData().forEach(data ->
@@ -198,21 +199,21 @@ public class Controller {
         XYChart.Series<String, Number> tempMaxSeries = new XYChart.Series<>();
         tempMaxSeries.setName("Temperatura Máxima");
 
-        XYChart.Series<String, Number> tempMinSeries = new XYChart.Series<>();
-        tempMinSeries.setName("Temperatura Mínima");
+//        XYChart.Series<String, Number> tempMinSeries = new XYChart.Series<>();
+//        tempMinSeries.setName("Temperatura Mínima");
 
-        temperatureChart.getData().addAll(tempMaxSeries, tempMinSeries);
+        temperatureChart.getData().addAll(tempMaxSeries);
 
         // Aplica as cores das barras após a criação dos nós
         tempMaxSeries.getData().forEach(data ->
                 data.getNode().setStyle("-fx-bar-fill: #b50000;")); // Vermelho
-        tempMinSeries.getData().forEach(data ->
-                data.getNode().setStyle("-fx-bar-fill: #4eb500;")); // Verde
+//        tempMinSeries.getData().forEach(data ->
+//                data.getNode().setStyle("-fx-bar-fill: #4eb500;")); // Verde
 
         // Torna os gráficos visíveis o tempo todo
         temperatureChart.setVisible(true);
         humidityChart.setVisible(true);
-        temperatureLegend.setVisible(true);
+//        temperatureLegend.setVisible(true);
     }
 
     // Atualiza os gráficos periodicamente
@@ -342,6 +343,6 @@ public class Controller {
     private void showTemperatureChart() {
         boolean isVisible = temperatureChart.isVisible();
         temperatureChart.setVisible(!isVisible);
-        temperatureLegend.setVisible(!isVisible);
+//        temperatureLegend.setVisible(!isVisible);
     }
 }

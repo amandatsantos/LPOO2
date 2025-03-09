@@ -5,15 +5,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/Interfaces/Dashboard.fxml"));
-        primaryStage.setTitle("Monitoramento de Umidade e Temperatura");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false); // Impede redimensionamento da janela
-        primaryStage.show();
+        // Carrega a tela de loading
+        Parent loadingScreen = FXMLLoader.load(getClass().getResource("/Interfaces/LoadingScreen.fxml"));
+        Stage loadingStage = new Stage();
+        loadingStage.initStyle(StageStyle.UNDECORATED); // Remove a barra de título
+        loadingStage.setScene(new Scene(loadingScreen));
+        loadingStage.show();
+
+        // A tela principal será aberta pelo LoadingScreenController após 3 segundos
     }
 
     public static void main(String[] args) {

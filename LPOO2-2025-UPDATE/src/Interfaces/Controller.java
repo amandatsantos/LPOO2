@@ -1,43 +1,39 @@
 package Interfaces;
-
+import javafx.scene.control.Tooltip;
 import DatabaseConnection.DatabaseConnection;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-import Monitoramento.Monitoramento;
-import Sensor.Sensor;
-import SerialCommunication.SerialCommunication;
-
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
-
 public class Controller {
 
-    // Componentes da interface
     @FXML
     private Button btnArduino;
 
@@ -45,41 +41,286 @@ public class Controller {
     private AnchorPane rootPane;
 
     @FXML
-    private BarChart<String, Number> humidityChart;
+    private BarChart<String, Number> humidityBarChart;
 
     @FXML
-    private BarChart<String, Number> temperatureChart;
-
-//    @FXML
-//    private HBox temperatureLegend;
+    private BarChart<String, Number> temperatureBarChart;
 
     @FXML
-    private HBox humidityLegend; // Referência para o HBox da legenda de umidade
+    private LineChart<String, Number> humidityLineChart;
 
-    // Variáveis para leitura serial
+    @FXML
+    private LineChart<String, Number> temperatureLineChart;
+
+    @FXML
+    private StackPane humidityStackPane;
+
+    @FXML
+    private StackPane temperatureStackPane;
+
+    @FXML
+    private HBox humidityLegend;
+
+    @FXML
+    private HBox tempAlert;
+
+    @FXML
+    private HBox umidadeArAlert;
+
+    @FXML
+    private HBox umidadeSoloAlert;
+
+    @FXML
+    private Label tempLabel;
+
+    @FXML
+    private Label umidadeArLabel;
+
+    @FXML
+    private Label umidadeSoloLabel;
+
+    @FXML
+    private VBox alertBox;
+
+    @FXML
+    private ImageView sinoImageView;
+
     private SerialPort comPort;
     private LinkedList<String[]> ultimasLeituras = new LinkedList<>();
+    private Timeline blinkTimeline;
+    private MediaPlayer mediaPlayer;
+
+    @FXML
+    private void handleMouseEnterButton(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        source.setScaleX(1.1);
+        source.setScaleY(1.1);
+    }
+
+    @FXML
+    private void handleMouseExitButton(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        source.setScaleX(1.0);
+        source.setScaleY(1.0);
+    }
+
+    @FXML
+    private void handleMouseEnter(MouseEvent event) {
+        HBox alertBox = (HBox) event.getSource();
+        alertBox.setScaleX(1.05);
+        alertBox.setScaleY(1.05);
+    }
+
+    @FXML
+    private void handleMouseExit(MouseEvent event) {
+        HBox alertBox = (HBox) event.getSource();
+        alertBox.setScaleX(1.0);
+        alertBox.setScaleY(1.0);
+    }
+
+    @FXML
+    private void mostrarVersao() {
+        // Cria um TextFlow para exibir texto formatado
+        TextFlow textFlow = new TextFlow();
+
+        // Adiciona "Versão 1.0" em negrito
+        Text versaoText = new Text("Versão 1.0\n\n");
+        versaoText.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
+        // Adiciona o restante da mensagem
+        Text atualizacoesText = new Text(
+                "Updates e Melhorias:\n"
+                        + "- Adição do gráfico de linha.\n"
+                        + "- Melhoria nos alertas de temperatura e umidade.\n"
+                        + "- Adição de som nos alertas.\n"
+                        + "- Adição da tela de loading.\n"
+                        + "- Correções de bugs e melhorias de desempenho."
+        );
+
+        // Adiciona os textos ao TextFlow
+        textFlow.getChildren().addAll(versaoText, atualizacoesText);
+
+        // Exibe a mensagem em um Alert
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Versão do Projeto");
+        alert.setHeaderText(null);
+
+        // Define o conteúdo do Alert como o TextFlow
+        alert.getDialogPane().setContent(textFlow);
+
+        // Exibe o Alert
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void toggleAlerts() {
+        if (tempAlert != null && umidadeArAlert != null && umidadeSoloAlert != null) {
+            boolean isVisible = tempAlert.isVisible();
+            tempAlert.setVisible(!isVisible);
+            umidadeArAlert.setVisible(!isVisible);
+            umidadeSoloAlert.setVisible(!isVisible);
+        } else {
+            System.err.println("Erro: Alertas não foram injetados corretamente.");
+        }
+    }
+
+    @FXML
+    private void showTemperatureAlert() {
+        String mensagem = "";
+        if (tempLabel.getText().contains("alta")) {
+            mensagem = "Alerta de alta temperatura\n\nA temperatura do minhocário está acima do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else if (tempLabel.getText().contains("baixa")) {
+            mensagem = "Alerta de baixa temperatura\n\nA temperatura do minhocário está abaixo do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else {
+            mensagem = "Temperatura ideal\n\nA temperatura do minhocário está dentro do nível estimado.";
+        }
+        showAlert("Alerta de Temperatura", mensagem);
+    }
+
+    @FXML
+    private void showHumidityAlert() {
+        String mensagem = "";
+        if (umidadeArLabel.getText().contains("alta")) {
+            mensagem = "Alerta de alta umidade do ar\n\nA umidade do ar está acima do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else if (umidadeArLabel.getText().contains("baixa")) {
+            mensagem = "Alerta de baixa umidade do ar\n\nA umidade do ar está abaixo do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else {
+            mensagem = "Umidade do ar ideal\n\nA umidade do ar está dentro do nível estimado.";
+        }
+        showAlert("Alerta de Umidade do Ar", mensagem);
+    }
+
+    @FXML
+    private void showSoilHumidityAlert() {
+        String mensagem = "";
+        if (umidadeSoloLabel.getText().contains("alta")) {
+            mensagem = "Alerta de alta umidade do solo\n\nA umidade do solo está acima do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else if (umidadeSoloLabel.getText().contains("baixa")) {
+            mensagem = "Alerta de baixa umidade do solo\n\nA umidade do solo está abaixo do nível ideal para a saúde das minhocas e para compostagem eficiente.";
+        } else {
+            mensagem = "Umidade do solo ideal\n\nA umidade do solo está dentro do nível ideal.";
+        }
+        showAlert("Alerta de Umidade do Solo", mensagem);
+    }
+
+    private void showAlert(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+//Alerta - Toque
+    private void playAlertSound() {
+        try {
+            String soundPath = getClass().getResource("/sounds/alerta5.mp3").toString();
+            Media sound = new Media(soundPath);
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erro ao reproduzir o som: " + e.getMessage());
+        }
+    }
+
+    private void stopAlertSound() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    private void verificarAlertas(float temperatura, float umidadeAr, float umidadeSolo) {
+        float tempAlta = 130;
+        float tempBaixa = -2;
+        float umidadeAlta = 100;
+        float umidadeBaixa = -2;
+
+        boolean hasAlert = false;
+
+        if (temperatura >= tempAlta) {
+            tempLabel.setText("Temperatura alta");
+            tempAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else if (temperatura <= tempBaixa) {
+            tempLabel.setText("Temperatura baixa");
+            tempAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else {
+            tempLabel.setText("Temperatura Ideal");
+            tempAlert.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+        }
+
+        if (umidadeAr >= umidadeAlta) {
+            umidadeArLabel.setText("Umidade do Ar alta");
+            umidadeArAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else if (umidadeAr <= umidadeBaixa) {
+            umidadeArLabel.setText("Umidade do Ar baixa");
+            umidadeArAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else {
+            umidadeArLabel.setText("Umidade do Ar ideal");
+            umidadeArAlert.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+        }
+
+        if (umidadeSolo >= umidadeAlta) {
+            umidadeSoloLabel.setText("Umidade do Solo alta");
+            umidadeSoloAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else if (umidadeSolo <= umidadeBaixa) {
+            umidadeSoloLabel.setText("Umidade do Solo baixa");
+            umidadeSoloAlert.setStyle("-fx-background-color: #ff4444; -fx-background-radius: 5; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+            hasAlert = true;
+        } else {
+            umidadeSoloLabel.setText("Umidade do Solo Ideal");
+            umidadeSoloAlert.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 5;");
+        }
+
+        if (hasAlert) {
+            sinoImageView.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0.5, 0, 0);");
+            playAlertSound();
+            startBlinking();
+        } else {
+            sinoImageView.setStyle("");
+            stopBlinking();
+        }
+    }
+
+    private void startBlinking() {
+        if (blinkTimeline == null) {
+            blinkTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(0.5), e -> {
+                        if (sinoImageView.getStyle().contains("red")) {
+                            sinoImageView.setStyle("");
+                        } else {
+                            sinoImageView.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0.5, 0, 0);");
+                        }
+                    }
+                    ));
+            blinkTimeline.setCycleCount(Timeline.INDEFINITE);
+        }
+        blinkTimeline.play();
+    }
+
+    private void stopBlinking() {
+        if (blinkTimeline != null) {
+            blinkTimeline.stop();
+        }
+        sinoImageView.setStyle("");
+    }
 
     @FXML
     private void initialize() {
-        // Configura a porta serial
         configurarPortaSerial();
-
-        // Configura o botão "Arduino"
         btnArduino.setOnAction(event -> abrirModal());
-
-        // Configura os gráficos
         configurarGraficos();
-
-        // Inicia a atualização automática dos gráficos
         atualizarGraficosPeriodicamente();
     }
 
-    // Configura a porta serial
     private void configurarPortaSerial() {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
-            if (port.getSystemPortName().equals("COM8")) { // Altere para a porta correta
+            if (port.getSystemPortName().equals("COM8")) {
                 comPort = port;
                 break;
             }
@@ -97,7 +338,6 @@ public class Controller {
         }
     }
 
-    // Processa os dados recebidos do Arduino
     private void processarDados(String data) {
         float temperatura = 0, umidadeAr = 0, umidadeSolo = 0;
         String[] linhas = data.split("\n");
@@ -113,110 +353,152 @@ public class Controller {
             }
         }
 
-        // Registrar no banco de dados
         DatabaseConnection.insertLeitura(temperatura, umidadeAr, umidadeSolo);
 
-        // Criar timestamp da leitura
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        // Adicionar nova leitura à lista (mantendo no máximo 10 leituras)
         if (ultimasLeituras.size() >= 10) {
             ultimasLeituras.removeFirst();
         }
         ultimasLeituras.add(new String[]{timestamp, String.valueOf(temperatura), String.valueOf(umidadeAr), String.valueOf(umidadeSolo)});
 
-        // Atualizar gráficos
         atualizarGraficos();
+        verificarAlertas(temperatura, umidadeAr, umidadeSolo);
     }
 
-    // Atualiza os gráficos com os dados mais recentes
     private void atualizarGraficos() {
         if (ultimasLeituras.isEmpty()) {
-            return; // Não há dados para exibir
+            return;
         }
 
-        // Obtém a última leitura
         String[] ultimaLeitura = ultimasLeituras.getLast();
         double temperatura = Double.parseDouble(ultimaLeitura[1]);
         double umidadeAr = Double.parseDouble(ultimaLeitura[2]);
         double umidadeSolo = Double.parseDouble(ultimaLeitura[3]);
 
-        // Obtém o horário atual como identificador
         String horario = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
-        // Adiciona os novos dados ao gráfico de umidade
-        XYChart.Data<String, Number> umidadeArData = new XYChart.Data<>(horario, umidadeAr);
-        XYChart.Data<String, Number> umidadeSoloData = new XYChart.Data<>(horario, umidadeSolo);
+        // Dados para umidade
+        XYChart.Data<String, Number> umidadeArDataBar = new XYChart.Data<>(horario, umidadeAr);
+        XYChart.Data<String, Number> umidadeSoloDataBar = new XYChart.Data<>(horario, umidadeSolo);
 
-        humidityChart.getData().get(0).getData().add(umidadeArData); // Umidade do Ar
-        humidityChart.getData().get(1).getData().add(umidadeSoloData); // Umidade do Solo
+        XYChart.Data<String, Number> umidadeArDataLine = new XYChart.Data<>(horario, umidadeAr);
+        XYChart.Data<String, Number> umidadeSoloDataLine = new XYChart.Data<>(horario, umidadeSolo);
 
-        // Aplica as cores das barras após a criação dos nós
-        umidadeArData.getNode().setStyle("-fx-bar-fill: #6398ff;"); // Azul
-        umidadeSoloData.getNode().setStyle("-fx-bar-fill: #8B4513;"); // Marrom
+        // Adiciona dados ao gráfico de barras de umidade
+        humidityBarChart.getData().get(0).getData().add(umidadeArDataBar);
+        humidityBarChart.getData().get(1).getData().add(umidadeSoloDataBar);
 
-        // Adiciona os novos dados ao gráfico de temperatura
-        XYChart.Data<String, Number> tempMaxData = new XYChart.Data<>(horario, temperatura + 2); // Temperatura Máxima
-//        XYChart.Data<String, Number> tempMinData = new XYChart.Data<>(horario, temperatura - 2); // Temperatura Mínima
+        // Adiciona dados ao gráfico de linhas de umidade
+        humidityLineChart.getData().get(0).getData().add(umidadeArDataLine);
+        humidityLineChart.getData().get(1).getData().add(umidadeSoloDataLine);
 
-        temperatureChart.getData().get(0).getData().add(tempMaxData); // Temperatura Máxima
-//        temperatureChart.getData().get(1).getData().add(tempMinData); // Temperatura Mínima
+        // Aplica estilos às barras após adicionar os dados
+        aplicarEstilosBarras(umidadeArDataBar, "#6398ff"); // Azul para umidade do ar
+        aplicarEstilosBarras(umidadeSoloDataBar, "#8B4513"); // Marrom para umidade do solo
 
-        // Aplica as cores das barras após a criação dos nós
-        tempMaxData.getNode().setStyle("-fx-bar-fill: #e86f07;"); // Vermelho
-//        tempMinData.getNode().setStyle("-fx-bar-fill: #4eb500;"); // Verde
+        // Aplica estilos às linhas
+        aplicarEstilosLinhas(humidityLineChart.getData().get(0), "#6398ff"); // Azul para umidade do ar
+        aplicarEstilosLinhas(humidityLineChart.getData().get(1), "#8B4513"); // Marrom para umidade do solo
 
-        // Remove dados antigos para manter o gráfico atualizado
-        if (humidityChart.getData().get(0).getData().size() > 10) {
-            humidityChart.getData().get(0).getData().remove(0);
-            humidityChart.getData().get(1).getData().remove(0);
+        // Dados para temperatura
+        XYChart.Data<String, Number> tempMaxDataBar = new XYChart.Data<>(horario, temperatura + 2);
+        XYChart.Data<String, Number> tempMaxDataLine = new XYChart.Data<>(horario, temperatura + 2);
+
+        // Adiciona dados ao gráfico de barras de temperatura
+        temperatureBarChart.getData().get(0).getData().add(tempMaxDataBar);
+
+        // Adiciona dados ao gráfico de linhas de temperatura
+        temperatureLineChart.getData().get(0).getData().add(tempMaxDataLine);
+
+        // Aplica estilos às barras de temperatura
+        aplicarEstilosBarras(tempMaxDataBar, "#e86f07"); // Laranja para temperatura
+
+        // Aplica estilos às linhas de temperatura
+        aplicarEstilosLinhas(temperatureLineChart.getData().get(0), "#e86f07"); // Laranja para temperatura
+
+        // Limita o número de pontos exibidos nos gráficos
+        if (humidityBarChart.getData().get(0).getData().size() > 10) {
+            humidityBarChart.getData().get(0).getData().remove(0);
+            humidityBarChart.getData().get(1).getData().remove(0);
         }
-        if (temperatureChart.getData().get(0).getData().size() > 10) {
-            temperatureChart.getData().get(0).getData().remove(0);
-            temperatureChart.getData().get(1).getData().remove(0);
+        if (humidityLineChart.getData().get(0).getData().size() > 10) {
+            humidityLineChart.getData().get(0).getData().remove(0);
+            humidityLineChart.getData().get(1).getData().remove(0);
+        }
+        if (temperatureBarChart.getData().get(0).getData().size() > 10) {
+            temperatureBarChart.getData().get(0).getData().remove(0);
+        }
+        if (temperatureLineChart.getData().get(0).getData().size() > 10) {
+            temperatureLineChart.getData().get(0).getData().remove(0);
         }
     }
 
-    // Configura os gráficos
+    private void aplicarEstilosBarras(XYChart.Data<String, Number> data, String cor) {
+        if (data.getNode() != null) {
+            data.getNode().setStyle("-fx-bar-fill: " + cor + ";");
+        } else {
+            // Adiciona um listener para aplicar o estilo quando o nó for criado
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    newNode.setStyle("-fx-bar-fill: " + cor + ";");
+                }
+            });
+        }
+    }
+
+    private void aplicarEstilosLinhas(XYChart.Series<String, Number> series, String cor) {
+        series.getNode().setStyle("-fx-stroke: " + cor + "; -fx-stroke-width: 2px;");
+    }
+
     private void configurarGraficos() {
-        // Configuração do gráfico de umidade
-        XYChart.Series<String, Number> umidadeArSeries = new XYChart.Series<>();
-        umidadeArSeries.setName("Umidade do Ar");
+        // Configuração do gráfico de umidade (barras)
+        XYChart.Series<String, Number> umidadeArSeriesBar = new XYChart.Series<>();
+        umidadeArSeriesBar.setName("Umidade do Ar");
 
-        XYChart.Series<String, Number> umidadeSoloSeries = new XYChart.Series<>();
-        umidadeSoloSeries.setName("Umidade do Solo");
+        XYChart.Series<String, Number> umidadeSoloSeriesBar = new XYChart.Series<>();
+        umidadeSoloSeriesBar.setName("Umidade do Solo");
 
-        humidityChart.getData().addAll(umidadeArSeries, umidadeSoloSeries);
-        humidityChart.setLegendVisible(false);
+        humidityBarChart.getData().addAll(umidadeArSeriesBar, umidadeSoloSeriesBar);
 
-        // Aplica as cores das barras após a criação dos nós
-        umidadeArSeries.getData().forEach(data ->
-                data.getNode().setStyle("-fx-bar-fill: #6398ff;")); // Azul
-        umidadeSoloSeries.getData().forEach(data ->
-                data.getNode().setStyle("-fx-bar-fill: #8B4513;")); // Marrom
+        // Configuração do gráfico de umidade (linhas)
+        XYChart.Series<String, Number> umidadeArSeriesLine = new XYChart.Series<>();
+        umidadeArSeriesLine.setName("Umidade do Ar");
 
-        // Configuração do gráfico de temperatura
-        XYChart.Series<String, Number> tempMaxSeries = new XYChart.Series<>();
-        tempMaxSeries.setName("Temperatura Máxima");
+        XYChart.Series<String, Number> umidadeSoloSeriesLine = new XYChart.Series<>();
+        umidadeSoloSeriesLine.setName("Umidade do Solo");
 
-//        XYChart.Series<String, Number> tempMinSeries = new XYChart.Series<>();
-//        tempMinSeries.setName("Temperatura Mínima");
+        humidityLineChart.getData().addAll(umidadeArSeriesLine, umidadeSoloSeriesLine);
 
-        temperatureChart.getData().addAll(tempMaxSeries);
+        // Configuração do gráfico de temperatura (barras)
+        XYChart.Series<String, Number> tempMaxSeriesBar = new XYChart.Series<>();
+        tempMaxSeriesBar.setName("Temperatura Máxima");
 
-        // Aplica as cores das barras após a criação dos nós
-        tempMaxSeries.getData().forEach(data ->
-                data.getNode().setStyle("-fx-bar-fill: #b50000;")); // Vermelho
-//        tempMinSeries.getData().forEach(data ->
-//                data.getNode().setStyle("-fx-bar-fill: #4eb500;")); // Verde
+        temperatureBarChart.getData().add(tempMaxSeriesBar);
 
-        // Torna os gráficos visíveis o tempo todo
-        temperatureChart.setVisible(true);
-        humidityChart.setVisible(true);
-//        temperatureLegend.setVisible(true);
+        // Configuração do gráfico de temperatura (linhas)
+        XYChart.Series<String, Number> tempMaxSeriesLine = new XYChart.Series<>();
+        tempMaxSeriesLine.setName("Temperatura Máxima");
+
+        temperatureLineChart.getData().add(tempMaxSeriesLine);
+
+        // Define a visibilidade inicial
+        temperatureBarChart.setVisible(true);
+        humidityBarChart.setVisible(true);
+        temperatureLineChart.setVisible(false);
+        humidityLineChart.setVisible(false);
+
     }
 
-    // Atualiza os gráficos periodicamente
+
+    @FXML
+    private void toggleGraphs() {
+        boolean isBarChartVisible = temperatureBarChart.isVisible();
+        temperatureBarChart.setVisible(!isBarChartVisible);
+        humidityBarChart.setVisible(!isBarChartVisible);
+        temperatureLineChart.setVisible(isBarChartVisible);
+        humidityLineChart.setVisible(isBarChartVisible);
+    }
     private void atualizarGraficosPeriodicamente() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
             if (comPort != null && comPort.isOpen()) {
@@ -230,46 +512,6 @@ public class Controller {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-    }
-
-    // Métodos de alerta
-    @FXML
-    private void showHighTemperatureAlert() {
-        showAlert("Alerta de alta temperatura", "A temperatura do minhocário está acima do nível ideal para a saúde das minhocas e para compostagem eficiente.\n\n" +
-                "Ação recomendada: \n \n" +
-                "Verifique a temperatura para garantir condições adequadas.\n ");
-    }
-
-    @FXML
-    private void showLowTemperatureAlert() {
-        showAlert("Alerta de baixa temperatura", "A temperatura do minhocário está abaixo do nível ideal para a saúde das minhocas e para compostagem eficiente.\n\n" +
-                "Ação recomendada: \n \n" +
-                "Verifique a temperatura para garantir condições adequadas.\n ");
-    }
-
-    @FXML
-    private void showLowHumidityAlert() {
-        showAlert("Alerta de baixa umidade", "A umidade do minhocário está abaixo do nível ideal para a saúde das minhocas e para a compostagem eficiente. \n \n" +
-                "Ação recomendada: \n \n" +
-                "Verifique a umidade para garantir condições adequadas.\n ");
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // Métodos de interação com o Arduino
-    @FXML
-    private void ligarArduino() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Ligar Arduino");
-        alert.setHeaderText(null);
-        alert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Uno \n Porta conectada: COM8 \n Baud Rate: 9600  \n Sensores: DHT11 e Higrômetro Pic Rasp \n Bibliotecas: DHT11 \n Método de comunicação: USB");
-        alert.showAndWait();
     }
 
     @FXML
@@ -287,18 +529,24 @@ public class Controller {
             }
 
             try (FileWriter writer = new FileWriter(fileToSave)) {
-                writer.append("Data/Hora,Temperatura,Umidade do Ar,Umidade do Solo\n");
+                // Escreve o cabeçalho do CSV
+                writer.append("Data/Hora;Temperatura (°C);Umidade do Ar (%);Umidade do Solo (%)\n");
+
+                // Escreve os dados
                 for (String[] leitura : ultimasLeituras) {
-                    writer.append(String.join(",", leitura)).append("\n");
+                    String linha = String.join(";", leitura); // Usa ";" como delimitador
+                    writer.append(linha).append("\n");
                 }
 
-                Alert alert = new Alert(AlertType.INFORMATION);
+                // Exibe uma mensagem de sucesso
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sucesso");
                 alert.setHeaderText(null);
                 alert.setContentText("Arquivo salvo em: " + fileToSave.getAbsolutePath());
                 alert.showAndWait();
             } catch (IOException e) {
-                Alert alert = new Alert(AlertType.ERROR);
+                // Exibe uma mensagem de erro
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
                 alert.setHeaderText(null);
                 alert.setContentText("Erro ao salvar o arquivo.");
@@ -310,39 +558,19 @@ public class Controller {
 
     @FXML
     private void openSupport() {
-        Alert supportAlert = new Alert(AlertType.INFORMATION);
+        Alert supportAlert = new Alert(Alert.AlertType.INFORMATION);
         supportAlert.setTitle("Suporte");
         supportAlert.setHeaderText(null);
         supportAlert.setContentText("Para suporte, entre em contato com o time de desenvolvimento.\n\n Amanda Tavares - tavaresamandasantos@gmail.com\n Bruno Flores - brunoinstt@gmail.com \n Henrique Santos - henrsilvasantos@gmail.com");
         supportAlert.showAndWait();
     }
 
-    // Método para abrir o modal do Arduino
+    @FXML
     private void abrirModal() {
-        Alert supportAlert = new Alert(AlertType.INFORMATION);
+        Alert supportAlert = new Alert(Alert.AlertType.INFORMATION);
         supportAlert.setTitle("Arduino");
         supportAlert.setHeaderText(null);
         supportAlert.setContentText("Para o desenvolvimento dessa aplicação foram utilizados os seguintes materiais:\n\n Arduino: Uno \n Porta conectada: COM8 \n Baud Rate: 9600  \n Sensores: DHT11 e Higrômetro Pic Rasp \n Bibliotecas: DHT11 \n Método de comunicação: USB ");
         supportAlert.showAndWait();
-    }
-
-    private void exibirAlerta(AlertType alertType, String mensagem) {
-        Alert alert = new Alert(alertType);
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
-    }
-
-    @FXML
-    private void showHumidityChart() {
-        boolean isVisible = humidityChart.isVisible();
-        humidityChart.setVisible(!isVisible);
-    }
-
-    @FXML
-    private void showTemperatureChart() {
-        boolean isVisible = temperatureChart.isVisible();
-        temperatureChart.setVisible(!isVisible);
-//        temperatureLegend.setVisible(!isVisible);
     }
 }

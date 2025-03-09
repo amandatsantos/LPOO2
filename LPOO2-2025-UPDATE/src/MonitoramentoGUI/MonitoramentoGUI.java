@@ -107,6 +107,8 @@ public class MonitoramentoGUI {
         }
     }
 
+
+
     private void verificarAlertas(float temperatura, float umidadeAr, float umidadeSolo) {
         String alerta = "";
 

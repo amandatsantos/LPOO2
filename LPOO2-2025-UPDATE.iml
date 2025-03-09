@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/LPOO2-2025-UPDATE/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LPOO2-2025-UPDATE/src/Resources" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
